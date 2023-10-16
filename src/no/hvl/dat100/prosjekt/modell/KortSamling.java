@@ -1,6 +1,5 @@
 package no.hvl.dat100.prosjekt.modell;
 
-import no.hvl.dat100.prosjekt.TODO;
 import no.hvl.dat100.prosjekt.kontroll.dommer.Regler;
 
 /**
@@ -21,11 +20,8 @@ public class KortSamling {
 	 * Oppretter en tom Kortsamling med plass til MAKS_KORT (hele kortstokken).
 	 */
 	public KortSamling() {
-		
-		// TODO - START
-		
-		throw new UnsupportedOperationException(TODO.constructor("KortSamling"));
-		// TODO - END
+		samling = new Kort[MAKS_KORT];
+		antall = 0;
 	}
 
 	/**
@@ -50,11 +46,7 @@ public class KortSamling {
 	 */
 	public int getAntalKort() {
 		
-		// TODO - START
-		
-		throw new UnsupportedOperationException(TODO.method());
-		
-		// TODO - END
+		return antall;
 	}
 	
 	/**
@@ -63,12 +55,11 @@ public class KortSamling {
 	 * @return true om samlinga er tom, false ellers.
 	 */
 	public boolean erTom() {
-		
-		// TODO - START
-				
-		throw new UnsupportedOperationException(TODO.method());
-		
-		// TODO - END
+		boolean tom = false;
+		if(antall == 0) {
+			tom = true; 
+		}
+		return tom;
 	}
 
 	/**
@@ -79,10 +70,10 @@ public class KortSamling {
 	 */
 	public void leggTil(Kort kort) {
 		
-		// TODO - START
-		
-		throw new UnsupportedOperationException(TODO.method());
-		// TODO - END
+		if (antall < MAKS_KORT) {
+            samling[antall] = kort;
+            antall++;
+        }
 		
 	}
 	
@@ -92,11 +83,12 @@ public class KortSamling {
 	 */
 	public void leggTilAlle() {
 		
-		// TODO - START
-		// Husk: bruk Regler.MAKS_KORT_FARGE for å få antall kort per farge
+		for (Kortfarge farge : Kortfarge.values()) {
+            for (int i = 1; i <= Regler.MAKS_KORT_FARGE; i++) {
+                leggTil(new Kort(farge, i));
+            }
+        }
 		
-		throw new UnsupportedOperationException(TODO.method());
-		// TODO - END
 	}
 
 	/**
@@ -104,10 +96,7 @@ public class KortSamling {
 	 */
 	public void fjernAlle() {
 		
-		// TODO - START
-		
-		throw new UnsupportedOperationException(TODO.method());
-		// TODO - END
+		antall = 0;
 	}
 	
 	/**
@@ -117,12 +106,10 @@ public class KortSamling {
 	 *         null.
 	 */
 	public Kort seSiste() {
-		
-		// TODO - START
-		
-		throw new UnsupportedOperationException(TODO.method());
-
-		// TODO - END
+		if (erTom()) {
+			return null;
+	        }
+		return samling[antall - 1];	
 		
 	}
 
@@ -134,11 +121,11 @@ public class KortSamling {
 	 */
 	public Kort taSiste() {
 		
-		// TODO - START
-		
-		throw new UnsupportedOperationException(TODO.method());
-		
-		// TODO - END
+		if (erTom()) {
+            return null;
+        }
+        antall--;
+        return samling[antall];
 	}
 	
 	/**
@@ -150,11 +137,12 @@ public class KortSamling {
 	 */
 	public boolean har(Kort kort) {
 		
-		// TODO - START
-		
-		throw new UnsupportedOperationException(TODO.method());
-		// return false;
-		// TODO - END
+		for (int i = 0; i < antall; i++) {
+            if (samling[i].equals(kort)) {
+                return true;
+            }
+        }
+        return false;
 		
 	}
 
@@ -165,16 +153,21 @@ public class KortSamling {
 	 * @param kort
 	 *            kortet som skal fjernast. Dersom kortet ikke finnes, skjer
 	 *            ingenting.
-	 * @return true om kortet blev fjernet fra samlinga, false ellers.
+	 * @return true om kortet ble fjernet fra samlinga, false ellers.
 	 */
 			 
 	public boolean fjern(Kort kort) {
 		
-		// TODO - START
-		
-		throw new UnsupportedOperationException(TODO.method());
-
-		// TODO - END
+		for (int i = 0; i < antall; i++) {
+            if (samling[i].equals(kort)) {
+                for (int j = i; j < antall - 1; j++) {
+                    samling[j] = samling[j + 1];
+                }
+                antall--;
+                return true;
+            }
+        }
+        return false;
 	}
 
 	/**
@@ -185,11 +178,9 @@ public class KortSamling {
 	 */
 	public Kort[] getAllekort() {
 		
-		// TODO - START
-		
-		throw new UnsupportedOperationException(TODO.method());
-
-		// TODO - END
+		Kort[] allekort = new Kort[antall];
+        System.arraycopy(samling, 0, allekort, 0, antall);
+        return allekort;
 	
 	}
 	
